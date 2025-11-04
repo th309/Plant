@@ -637,89 +637,296 @@
 
 ---
 
-## Development Roadmap
+## Development Team & Approach
 
-### Pre-Development (Weeks 1-2)
-- [ ] Finalize technical stack
-- [ ] Set up development environment
-- [ ] Create detailed wireframes/mockups
-- [ ] Define API specifications
-- [ ] Set up project management tools
-- [ ] Form development team
+### Team Structure
+**2-Person Development Team:**
+- **Lead Developer:** Full-stack development, architecture, testing, deployment
+- **AI Development Assistant:** Code generation, debugging, documentation, testing
 
-### Development Phase 1: Foundation (Weeks 3-8)
-- [ ] User authentication system
-- [ ] Database schema implementation
-- [ ] Basic UI components
-- [ ] User profile creation (owner & sitter)
-- [ ] Plant profile management
-- [ ] Search functionality
+### AI-Assisted Development Methodology
 
-### Development Phase 2: Core Features (Weeks 9-14)
-- [ ] Booking system
-- [ ] Payment integration (Stripe)
-- [ ] In-app messaging
-- [ ] Rating and review system
-- [ ] Notification system
-- [ ] Admin dashboard (basic)
+**Development Process:**
+1. **Sprint Planning:** Define features and acceptance criteria
+2. **AI Code Generation:** AI generates components, APIs, database migrations, tests
+3. **Review & Integration:** Developer reviews, tests, and integrates code
+4. **Iteration:** Rapid feedback loop for fixes and improvements
+5. **Deployment:** Continuous integration and deployment
 
-### Development Phase 3: Polish & Testing (Weeks 15-18)
-- [ ] UI/UX refinement
-- [ ] Comprehensive testing (unit, integration, E2E)
+**AI Responsibilities:**
+- Generate React Native components and screens
+- Write backend API endpoints and business logic
+- Create database migrations and queries
+- Generate unit and integration tests
+- Debug issues and suggest fixes
+- Create technical documentation
+
+**Developer Responsibilities:**
+- Architecture and technology decisions
+- Code review and quality assurance
+- Manual testing and QA
+- DevOps setup and deployment
+- Product decisions and UX refinement
+- Integration and system testing
+
+**Advantages of This Approach:**
+- **Rapid Development:** AI generates boilerplate 10x faster
+- **No Coordination Overhead:** Single decision-maker
+- **Consistent Code Style:** AI maintains patterns
+- **24/7 Development Capability:** Work anytime with AI assistance
+- **Cost Efficient:** No salaries, just infrastructure costs
+
+---
+
+## Development Roadmap - Aggressive 12-Week Timeline
+
+**Timeline:** 12 weeks (3 months) to MVP launch
+**Approach:** Fast iteration, AI-accelerated development, ship working features weekly
+
+### Week 1: Foundation & Setup
+- [ ] Finalize technical stack decisions
+- [ ] Set up development environment (Node.js, PostgreSQL, React Native)
+- [ ] Initialize Git repository and project structure
+- [ ] Set up backend with Express + TypeScript
+- [ ] Set up mobile app with React Native + TypeScript
+- [ ] Database design and initial migrations
+- [ ] Configure development tools (ESLint, Prettier, testing)
+
+**Deliverable:** Working dev environment, "Hello World" on mobile and backend
+
+### Weeks 2-3: Authentication & User Profiles
+- [ ] User authentication (JWT tokens)
+- [ ] Registration and login flows
+- [ ] Password reset functionality
+- [ ] User profile management (owner & sitter)
+- [ ] Profile photo upload
+- [ ] Email verification
+- [ ] Basic navigation and routing
+
+**Deliverable:** Users can sign up, log in, and manage profiles
+
+### Week 4: Plant Profiles & Storage
+- [ ] Plant CRUD operations (Create, Read, Update, Delete)
+- [ ] Plant photo upload to S3/Cloudinary
+- [ ] Care instructions form
+- [ ] Plant list and detail screens
+- [ ] Image optimization and CDN
+- [ ] Search plants (owner's own plants)
+
+**Deliverable:** Plant owners can add and manage their plants
+
+### Week 5: Sitter Profiles & Search
+- [ ] Sitter profile creation
+- [ ] Service area and pricing setup
+- [ ] Geolocation integration (PostGIS)
+- [ ] Google Maps integration
+- [ ] Sitter search by location
+- [ ] Sitter profile detail view
+- [ ] Distance calculation
+
+**Deliverable:** Users can switch to sitter mode and be discoverable
+
+### Week 6: Booking System
+- [ ] Booking request creation
+- [ ] Date selection and validation
+- [ ] Plant selection for booking
+- [ ] Price calculation
+- [ ] Booking list (owner and sitter views)
+- [ ] Accept/decline booking (sitter)
+- [ ] Booking status management
+- [ ] Booking detail screens
+
+**Deliverable:** Complete booking flow from request to acceptance
+
+### Week 7: Payment Integration
+- [ ] Stripe account setup
+- [ ] Stripe Connect for marketplace
+- [ ] Payment method management
+- [ ] Payment processing (escrow model)
+- [ ] Payment Intent creation
+- [ ] Payout to sitters after completion
+- [ ] Transaction history
+- [ ] Receipt generation
+
+**Deliverable:** End-to-end payment flow working
+
+### Week 8: Messaging System
+- [ ] In-app messaging (real-time or polling)
+- [ ] Conversation list
+- [ ] Message thread view
+- [ ] Send text messages
+- [ ] Photo sharing in messages
+- [ ] Read receipts
+- [ ] Push notifications for new messages
+- [ ] Message history per booking
+
+**Deliverable:** Owners and sitters can communicate
+
+### Week 9: Reviews & Ratings
+- [ ] Review creation after booking completion
+- [ ] Star rating system (1-5 stars)
+- [ ] Review text and photos
+- [ ] Display reviews on sitter profiles
+- [ ] Average rating calculation
+- [ ] Review moderation flags
+- [ ] Email notification for new reviews
+
+**Deliverable:** Complete review system functioning
+
+### Week 10: Notifications & Polish
+- [ ] Push notification setup (FCM)
+- [ ] Email notification setup (SendGrid)
+- [ ] Notification for booking events
+- [ ] Notification preferences
+- [ ] UI/UX polish and consistency
+- [ ] Loading states and error handling
+- [ ] Form validation improvements
+- [ ] Responsive design adjustments
+
+**Deliverable:** Professional, polished user experience
+
+### Week 11: Admin Dashboard & Testing
+- [ ] Basic admin web dashboard
+- [ ] User management (view, suspend)
+- [ ] Booking management and oversight
+- [ ] Dispute resolution tools
+- [ ] Platform analytics
+- [ ] Comprehensive manual testing
+- [ ] Critical unit tests (payment, booking logic)
+- [ ] Bug fixes and stability improvements
+
+**Deliverable:** Admin tools and stable, tested app
+
+### Week 12: Launch Preparation
+- [ ] Security audit and hardening
 - [ ] Performance optimization
-- [ ] Security audit
-- [ ] Bug fixes
-- [ ] Beta user testing
+- [ ] App store listing preparation
+- [ ] Screenshots and marketing materials
+- [ ] Terms of Service and Privacy Policy
+- [ ] Submit to Apple App Store
+- [ ] Submit to Google Play Store
+- [ ] Beta testing with 10-20 users
+- [ ] Final bug fixes
+- [ ] Launch!
 
-### Development Phase 4: Launch Prep (Weeks 19-20)
-- [ ] App store submissions
-- [ ] Marketing materials
-- [ ] Support documentation
-- [ ] Terms of service / Privacy policy
-- [ ] Analytics setup
-- [ ] Launch plan execution
+**Deliverable:** App live in app stores
 
-### Post-Launch (Ongoing)
-- [ ] Monitor metrics and user feedback
-- [ ] Iterate and improve
-- [ ] Fix bugs and issues
-- [ ] Plan Phase 2 features
+### Post-Launch (Weeks 13+)
+- [ ] Monitor crash reports and errors (Sentry)
+- [ ] User feedback collection
+- [ ] Quick bug fixes
+- [ ] Iterate on UX based on user behavior
+- [ ] Plan v1.1 features
 - [ ] Scale infrastructure as needed
 
 ---
 
-## Budget Estimates (MVP)
+## Sprint Structure (2-Week Sprints)
+
+**Sprint Cadence:**
+- **6 total sprints** (2 weeks each = 12 weeks)
+- **Daily development:** 4-6 hours focused work
+- **Weekly milestones:** Ship working features each week
+- **Rapid iteration:** Test and iterate quickly
+
+**Daily Workflow:**
+1. Define feature requirements in detail
+2. AI generates code (components, APIs, migrations)
+3. Review and test locally
+4. Debug and fix issues with AI
+5. Commit working code
+6. Deploy to staging environment
+7. Manual QA testing
+
+**Weekly Check-ins:**
+- Friday: Review week's progress
+- Demo working features
+- Plan next week's work
+- Adjust priorities as needed
+
+---
+
+## Budget Estimates (MVP) - 2-Person Team
 
 ### Development Costs
-- **Mobile Development (React Native):** $60,000 - $100,000
-  - 2 developers × 4-5 months
-- **Backend Development:** $40,000 - $60,000
-  - 1-2 developers × 4-5 months
-- **UI/UX Design:** $15,000 - $25,000
-- **Project Management:** $20,000 - $30,000
-- **QA/Testing:** $10,000 - $15,000
+**$0** - Developer's time + AI assistant subscription (~$20/month for Claude Pro)
 
-**Total Development:** $145,000 - $230,000
+**Total Development:** $0 (excluding time investment)
 
-### Infrastructure & Services (Annual)
-- **Cloud Hosting (AWS/GCP):** $3,000 - $10,000
-- **Payment Processing (Stripe):** Variable (% of transactions)
-- **Third-party APIs:** $3,000 - $8,000
-  - Messaging, notifications, maps, etc.
-- **Domain, SSL, CDN:** $500 - $1,000
+### Infrastructure & Services (First Year)
 
-**Total Infrastructure:** $6,500 - $19,000/year
+#### Essential Services (Monthly/Annual):
+- **Cloud Hosting (AWS/DigitalOcean):**
+  - EC2/Droplet (2GB): $12-15/month
+  - RDS PostgreSQL: $15-25/month
+  - Redis: $10-15/month
+  - **Total Hosting:** ~$50/month = **$600/year**
 
-### Marketing & Operations (First Year)
-- **Marketing:** $30,000 - $100,000
-- **Legal (TOS, contracts):** $5,000 - $10,000
-- **Customer Support:** $20,000 - $40,000
-- **Insurance:** $5,000 - $15,000
+- **Domain & SSL:**
+  - Domain: $15/year
+  - SSL: Free (Let's Encrypt)
+  - Email (Google Workspace): $6/month = $72/year
+  - **Total:** **~$90/year**
 
-**Total Operations:** $60,000 - $165,000
+- **Third-Party APIs:**
+  - **Stripe:** 2.9% + $0.30 per transaction (pay as you go)
+  - **Google Maps API:** $50-100/month with free tier = **$600-1,200/year**
+  - **SendGrid (Email):** Free tier (100 emails/day) → $15/month if needed = **$0-180/year**
+  - **Twilio (SMS):** Pay as you go, ~$20-40/month = **$240-480/year**
+  - **Cloudinary (Images):** Free tier initially → $89/month if needed = **$0-1,068/year**
+  - **Firebase (Push Notifications):** Free tier (Spark Plan) = **$0/year**
+  - **Total APIs:** **$840-2,928/year**
+
+- **Monitoring & Tools:**
+  - **Sentry (Errors):** Free tier initially = **$0/year**
+  - **GitHub:** Free for public repos = **$0/year**
+  - **Total Tools:** **$0/year**
+
+- **App Stores:**
+  - Apple Developer: $99/year
+  - Google Play: $25 one-time
+  - **Total:** **$124/year** (then $99/year)
+
+**Total Infrastructure Year 1:** **$1,654 - $4,622**
+
+**Conservative Estimate:** **~$2,500/year**
+
+### Marketing & Operations (First Year - Bootstrap)
+
+#### Lean Marketing Approach:
+- **Paid Advertising:** $0 initially (organic only)
+- **Marketing Budget:** $500 (flyers, local plant shop partnerships, Product Hunt promotion)
+- **Legal (TOS, Privacy Policy):** $300 (templates + lawyer review)
+- **Customer Support:** $0 (handle personally)
+- **Insurance:** $0 initially (add after traction)
+
+**Total Marketing & Operations:** **$800**
 
 ### Grand Total (First Year)
-**$210,000 - $415,000**
+**$3,300 - $5,500**
+
+**Realistic Budget:** **~$4,000 first year**
+
+### Break-Even Analysis
+
+**Assumptions:**
+- 15% platform commission (sitter)
+- 10% service fee (owner)
+- Average booking: $100 (sitter gets $100, owner pays $110, platform gets $25)
+
+**Monthly Infrastructure Cost:** ~$200/month
+
+**Bookings Needed to Break Even:**
+- $200 / $25 per booking = **8 bookings/month**
+- **100 bookings/year** = $2,500 revenue → covers costs
+
+**Path to Profitability:**
+- Month 1-3: 5-10 bookings (building momentum)
+- Month 4-6: 15-25 bookings (word of mouth)
+- Month 7-12: 30-50 bookings/month (sustainable)
+- **Year 1 Total:** 200-300 bookings = $5,000-7,500 revenue
+
+**Realistic Outcome:** Break even by month 4-6, profitable by month 8-10
 
 ---
 

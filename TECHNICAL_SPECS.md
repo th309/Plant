@@ -1,20 +1,146 @@
 # Plant Sitter App - Technical Specifications
 
+## Development Context
+
+**Team:** 2-Person Development Team (Developer + AI Assistant)
+**Timeline:** 12 weeks (3 months) aggressive schedule
+**Approach:** AI-accelerated development with rapid iteration
+
+---
+
 ## Table of Contents
-1. [Architecture Overview](#architecture-overview)
-2. [Technology Stack](#technology-stack)
-3. [Database Schema](#database-schema)
-4. [API Specification](#api-specification)
-5. [Authentication & Authorization](#authentication--authorization)
-6. [Payment Integration](#payment-integration)
-7. [Real-time Features](#real-time-features)
-8. [File Storage](#file-storage)
-9. [Push Notifications](#push-notifications)
-10. [Geolocation Services](#geolocation-services)
-11. [Security Considerations](#security-considerations)
-12. [Performance & Scalability](#performance--scalability)
-13. [Testing Strategy](#testing-strategy)
-14. [DevOps & Deployment](#devops--deployment)
+1. [AI-Assisted Development](#ai-assisted-development)
+2. [Architecture Overview](#architecture-overview)
+3. [Technology Stack](#technology-stack)
+4. [Database Schema](#database-schema)
+5. [API Specification](#api-specification)
+6. [Authentication & Authorization](#authentication--authorization)
+7. [Payment Integration](#payment-integration)
+8. [Real-time Features](#real-time-features)
+9. [File Storage](#file-storage)
+10. [Push Notifications](#push-notifications)
+11. [Geolocation Services](#geolocation-services)
+12. [Security Considerations](#security-considerations)
+13. [Performance & Scalability](#performance--scalability)
+14. [Testing Strategy](#testing-strategy)
+15. [DevOps & Deployment](#devops--deployment)
+
+---
+
+## AI-Assisted Development
+
+### Development Methodology
+
+This application is built using AI-accelerated development with Claude as the primary development assistant. This approach enables rapid iteration and significantly reduces development time.
+
+### AI's Responsibilities
+
+**Code Generation:**
+- React Native components (screens, UI components, forms)
+- Backend API endpoints (Express routes, controllers, middleware)
+- Database migrations and queries (Prisma/TypeORM)
+- Unit and integration tests (Jest, Supertest)
+- Type definitions (TypeScript interfaces and types)
+
+**Architecture & Patterns:**
+- Implement established design patterns (MVC, Repository, Factory)
+- Follow React Native and Node.js best practices
+- Ensure code consistency and maintainability
+- Generate reusable utility functions
+
+**Documentation:**
+- Inline code comments
+- API documentation (Swagger/OpenAPI)
+- README files for each module
+- Technical decision logs
+
+**Debugging & Problem Solving:**
+- Analyze error messages and logs
+- Suggest fixes for bugs and issues
+- Optimize performance bottlenecks
+- Research and implement solutions
+
+### Developer's Responsibilities
+
+**Strategic Decisions:**
+- Architecture and technology choices
+- Product feature prioritization
+- UX and design decisions
+- Third-party service selection
+
+**Quality Assurance:**
+- Code review and approval
+- Manual testing of features
+- Integration testing
+- Security review
+
+**Integration & Deployment:**
+- Git workflow management
+- CI/CD pipeline setup
+- Environment configuration
+- Production deployment
+
+**Product Management:**
+- Feature specification
+- User story definition
+- Bug triage and prioritization
+- Stakeholder communication
+
+### Development Workflow
+
+**Daily Cycle:**
+```
+1. Developer defines feature requirements
+   ↓
+2. AI generates implementation code
+   ↓
+3. Developer reviews code and runs locally
+   ↓
+4. Developer tests functionality
+   ↓
+5. If issues found → AI debugs and fixes
+   ↓
+6. Developer commits working code
+   ↓
+7. Repeat for next feature
+```
+
+**Weekly Cycle:**
+```
+Monday: Sprint planning, define week's features
+Tuesday-Thursday: Development (AI generates, developer integrates)
+Friday: Testing, bug fixes, demo, plan next week
+```
+
+### Key Advantages
+
+**Speed:**
+- 5-10x faster boilerplate generation
+- Instant implementation of standard patterns
+- Rapid prototyping and iteration
+
+**Quality:**
+- Consistent code style
+- Best practices enforced
+- Comprehensive test coverage
+- Detailed documentation
+
+**Efficiency:**
+- No coordination overhead
+- No context switching between team members
+- Fast decision-making
+- 24/7 development capability
+
+### Timeline Impact
+
+**Traditional Team (3-4 developers):** 20 weeks
+**AI-Assisted Solo Development:** 12 weeks (aggressive but achievable)
+
+**Time Savings:**
+- 70% reduction in boilerplate coding time
+- 50% reduction in debugging time
+- 80% reduction in documentation time
+- 100% reduction in team coordination time
 
 ---
 

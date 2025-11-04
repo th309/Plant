@@ -828,12 +828,64 @@
 
 ---
 
-## Next Steps for Development
+## Development Timeline - 12 Week Aggressive Schedule
 
-1. **Sprint 1-2:** Epic 1 (Auth), Epic 2 (Plant Profiles)
-2. **Sprint 3-4:** Epic 3 (Search), Epic 4 (Booking)
-3. **Sprint 5-6:** Epic 5 (Communication), Epic 6 (Payment)
-4. **Sprint 7-8:** Epic 7 (Reviews), Epic 8 (Notifications), Epic 9 (Safety)
-5. **Sprint 9-10:** Epic 10 (Sitter Features), Epic 11 (Admin), Polish & Testing
+**Team:** 2-Person (Developer + AI Assistant)
+**Approach:** AI-accelerated development, rapid iteration
 
-Each sprint = 2 weeks = 10 sprints total = ~20 weeks of development
+### Week-by-Week Epic Mapping
+
+**Week 1: Foundation**
+- Project setup, environment configuration
+- Database design and initial migrations
+
+**Weeks 2-3: Epic 1 & 2**
+- Epic 1: User Registration & Authentication (P0 stories)
+- Epic 2: Plant Profile Management (P0 stories)
+
+**Week 4: Continuation of Epic 2**
+- Complete plant photo uploads and CRUD operations
+
+**Week 5: Epic 3 & 10**
+- Epic 3: Search & Discovery (P0 stories)
+- Epic 10: Sitter Features - Basic profile setup (P0 stories)
+
+**Week 6: Epic 4**
+- Epic 4: Booking Management (P0 stories)
+
+**Week 7: Epic 6**
+- Epic 6: Payment Processing (P0 stories - Stripe integration)
+
+**Week 8: Epic 5**
+- Epic 5: Communication (P0 stories - messaging)
+
+**Week 9: Epic 7**
+- Epic 7: Reviews & Ratings (P0 stories)
+
+**Week 10: Epic 8 & 9**
+- Epic 8: Notifications (P0 stories - push notifications)
+- Epic 9: Safety & Trust (P0 basic features - report user, verification)
+- UI/UX polish
+
+**Week 11: Epic 11 & Testing**
+- Epic 11: Admin & Support (P0 basic dashboard)
+- Comprehensive testing and bug fixes
+
+**Week 12: Launch Prep**
+- Security audit
+- Performance optimization
+- App store submission
+- Beta testing
+
+### Post-Launch (Weeks 13+)
+- **P1 stories** (Post-MVP enhancements)
+- **P2 stories** (Future enhancements)
+- **P3 stories** (Long-term vision)
+
+**Total:** 12 weeks to MVP launch with all P0 stories completed
+
+### Sprint Structure
+- **6 sprints** (2 weeks each)
+- **Daily standups:** Morning planning with AI
+- **Weekly demos:** Friday review of completed features
+- **Continuous integration:** Deploy to staging daily
