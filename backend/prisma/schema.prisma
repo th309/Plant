@@ -1,0 +1,467 @@
+// This is your Prisma schema file for Plant Sitter App
+// Learn more: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User Model
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  phone     String?  @unique
+  passwordHash String @map("password_hash")
+
+  firstName String   @map("first_name")
+  lastName  String   @map("last_name")
+  profilePhotoUrl String? @map("profile_photo_url")
+  bio       String?
+
+  role      UserRole @default(OWNER)
+
+  // Location (stored as lat/lng)
+  latitude  Float?
+  longitude Float?
+  address   Json?    // {street, city, state, zip, country}
+
+  // Verification
+  emailVerified Boolean @default(false) @map("email_verified")
+  phoneVerified Boolean @default(false) @map("phone_verified")
+  idVerified    Boolean @default(false) @map("id_verified")
+  backgroundCheckStatus BackgroundCheckStatus? @map("background_check_status")
+  backgroundCheckDate   DateTime? @map("background_check_date")
+
+  // Account status
+  status    UserStatus @default(ACTIVE)
+  lastLogin DateTime?  @map("last_login")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  sitterProfile    SitterProfile?
+  plantsOwned      Plant[]        @relation("PlantOwner")
+  bookingsAsOwner  Booking[]      @relation("BookingOwner")
+  bookingsAsSitter Booking[]      @relation("BookingSitter")
+  messagesSent     Message[]      @relation("MessageSender")
+  messagesReceived Message[]      @relation("MessageReceiver")
+  reviewsGiven     Review[]       @relation("Reviewer")
+  reviewsReceived  Review[]       @relation("Reviewee")
+  paymentsAsPayer  Payment[]      @relation("Payer")
+  paymentsAsPayee  Payment[]      @relation("Payee")
+  notifications    Notification[]
+  devices          UserDevice[]
+
+  @@index([email])
+  @@index([latitude, longitude])
+  @@index([role])
+  @@map("users")
+}
+
+enum UserRole {
+  OWNER
+  SITTER
+  BOTH
+  ADMIN
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+  BANNED
+}
+
+enum BackgroundCheckStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+// Sitter Profile Model
+model SitterProfile {
+  id     String @id @default(uuid())
+  userId String @unique @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Service details
+  experienceLevel ExperienceLevel @map("experience_level")
+  specializations String[]
+  bio             String?
+  serviceRadius   Int?            @map("service_radius") // in miles or km
+
+  // Pricing
+  hourlyRate   Decimal? @map("hourly_rate") @db.Decimal(10, 2)
+  dailyRate    Decimal? @map("daily_rate") @db.Decimal(10, 2)
+  perPlantRate Decimal? @map("per_plant_rate") @db.Decimal(10, 2)
+
+  // Availability
+  availabilityCalendar Json? @map("availability_calendar")
+  instantBookEnabled   Boolean @default(false) @map("instant_book_enabled")
+
+  // Stats
+  totalBookings     Int     @default(0) @map("total_bookings")
+  completedBookings Int     @default(0) @map("completed_bookings")
+  averageRating     Decimal @default(0) @map("average_rating") @db.Decimal(3, 2)
+  totalReviews      Int     @default(0) @map("total_reviews")
+  responseTimeMinutes Int?  @map("response_time_minutes")
+  acceptanceRate    Decimal? @map("acceptance_rate") @db.Decimal(5, 2)
+
+  // Settings
+  autoAcceptEnabled     Boolean @default(false) @map("auto_accept_enabled")
+  maxPlantsPerBooking   Int?    @map("max_plants_per_booking")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([averageRating])
+  @@map("sitter_profiles")
+}
+
+enum ExperienceLevel {
+  BEGINNER
+  INTERMEDIATE
+  EXPERT
+}
+
+// Plant Model
+model Plant {
+  id      String @id @default(uuid())
+  ownerId String @map("owner_id")
+  owner   User   @relation("PlantOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+
+  name        String
+  species     String?
+  description String?
+  photos      String[] // Array of image URLs
+
+  careInstructions Json @map("care_instructions")
+  /* {
+    wateringFrequency: "every 3 days",
+    wateringAmount: "1 cup",
+    lightRequirements: "bright indirect",
+    temperatureRange: "65-75°F",
+    humidity: "moderate",
+    fertilizing: "monthly",
+    specialNotes: "sensitive to overwatering",
+    lastWatered: "2024-01-15"
+  } */
+
+  // Location
+  latitude      Float?
+  longitude     Float?
+  address       Json?   // If different from owner's address
+  locationNotes String? @map("location_notes")
+
+  status PlantStatus @default(ACTIVE)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  bookingUpdates BookingUpdate[]
+
+  @@index([ownerId])
+  @@index([status])
+  @@map("plants")
+}
+
+enum PlantStatus {
+  ACTIVE
+  ARCHIVED
+  DECEASED
+}
+
+// Booking Model
+model Booking {
+  id      String @id @default(uuid())
+
+  ownerId  String @map("owner_id")
+  owner    User   @relation("BookingOwner", fields: [ownerId], references: [id])
+
+  sitterId String @map("sitter_id")
+  sitter   User   @relation("BookingSitter", fields: [sitterId], references: [id])
+
+  plantIds String[] @map("plant_ids") // Array of plant IDs
+
+  startDate DateTime @map("start_date")
+  endDate   DateTime @map("end_date")
+
+  status BookingStatus @default(PENDING)
+
+  // Service details
+  serviceType      String  @map("service_type")
+  visitFrequency   String? @map("visit_frequency")
+  specialInstructions String? @map("special_instructions")
+  accessInstructions  String? @map("access_instructions")
+  emergencyContact    Json?   @map("emergency_contact")
+
+  // Pricing
+  subtotal        Decimal @db.Decimal(10, 2)
+  serviceFee      Decimal @map("service_fee") @db.Decimal(10, 2)
+  sitterCommission Decimal @map("sitter_commission") @db.Decimal(10, 2)
+  totalPrice      Decimal @map("total_price") @db.Decimal(10, 2)
+
+  // Cancellation
+  cancelledAt       DateTime? @map("cancelled_at")
+  cancellationReason String?  @map("cancellation_reason")
+  refundAmount      Decimal?  @map("refund_amount") @db.Decimal(10, 2)
+
+  // Completion
+  completedAt DateTime? @map("completed_at")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  messages Message[]
+  review   Review?
+  payment  Payment?
+  updates  BookingUpdate[]
+
+  @@index([ownerId])
+  @@index([sitterId])
+  @@index([status])
+  @@index([startDate, endDate])
+  @@map("bookings")
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED_BY_OWNER
+  CANCELLED_BY_SITTER
+  DISPUTED
+}
+
+// Booking Updates (photos and notes from sitter)
+model BookingUpdate {
+  id        String   @id @default(uuid())
+  bookingId String   @map("booking_id")
+  booking   Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  sitterId String
+
+  updateType String   @map("update_type") // 'check_in', 'photo', 'note', 'issue'
+  message    String?
+  photos     String[] // Array of image URLs
+
+  plantId String?
+  plant   Plant?  @relation(fields: [plantId], references: [id])
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([bookingId])
+  @@index([createdAt])
+  @@map("booking_updates")
+}
+
+// Message Model
+model Message {
+  id String @id @default(uuid())
+
+  senderId   String @map("sender_id")
+  sender     User   @relation("MessageSender", fields: [senderId], references: [id])
+
+  receiverId String @map("receiver_id")
+  receiver   User   @relation("MessageReceiver", fields: [receiverId], references: [id])
+
+  bookingId String?  @map("booking_id")
+  booking   Booking? @relation(fields: [bookingId], references: [id])
+
+  content     String
+  attachments String[] // Array of file URLs
+  messageType MessageType @default(TEXT) @map("message_type")
+
+  read   Boolean   @default(false)
+  readAt DateTime? @map("read_at")
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([senderId, receiverId, createdAt])
+  @@index([bookingId])
+  @@index([receiverId, read])
+  @@map("messages")
+}
+
+enum MessageType {
+  TEXT
+  IMAGE
+  SYSTEM
+}
+
+// Review Model
+model Review {
+  id        String  @id @default(uuid())
+  bookingId String  @unique @map("booking_id")
+  booking   Booking @relation(fields: [bookingId], references: [id])
+
+  reviewerId String @map("reviewer_id")
+  reviewer   User   @relation("Reviewer", fields: [reviewerId], references: [id])
+
+  revieweeId String @map("reviewee_id")
+  reviewee   User   @relation("Reviewee", fields: [revieweeId], references: [id])
+
+  reviewerRole ReviewerRole @map("reviewer_role")
+
+  rating  Int
+  comment String?
+  photos  String[] // Photos of plants after service
+
+  // Detailed ratings (optional)
+  communicationRating Int? @map("communication_rating")
+  reliabilityRating   Int? @map("reliability_rating")
+  plantCareRating     Int? @map("plant_care_rating")
+
+  // Response
+  response   String?   @map("response")
+  responseAt DateTime? @map("response_at")
+
+  status ReviewStatus @default(PUBLISHED)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([revieweeId])
+  @@index([rating])
+  @@index([createdAt])
+  @@map("reviews")
+}
+
+enum ReviewerRole {
+  OWNER
+  SITTER
+}
+
+enum ReviewStatus {
+  PUBLISHED
+  HIDDEN
+  REPORTED
+}
+
+// Payment Model
+model Payment {
+  id        String  @id @default(uuid())
+  bookingId String  @unique @map("booking_id")
+  booking   Booking @relation(fields: [bookingId], references: [id])
+
+  payerId String @map("payer_id")
+  payer   User   @relation("Payer", fields: [payerId], references: [id])
+
+  payeeId String @map("payee_id")
+  payee   User   @relation("Payee", fields: [payeeId], references: [id])
+
+  // Amounts
+  amount        Decimal @db.Decimal(10, 2)
+  platformFee   Decimal @map("platform_fee") @db.Decimal(10, 2)
+  sitterPayout  Decimal @map("sitter_payout") @db.Decimal(10, 2)
+  tipAmount     Decimal @default(0) @map("tip_amount") @db.Decimal(10, 2)
+  refundAmount  Decimal @default(0) @map("refund_amount") @db.Decimal(10, 2)
+
+  status        PaymentStatus @default(PENDING)
+  paymentMethod String?       @map("payment_method")
+
+  // Stripe references
+  stripePaymentIntentId String? @map("stripe_payment_intent_id")
+  stripeChargeId        String? @map("stripe_charge_id")
+  stripeTransferId      String? @map("stripe_transfer_id")
+
+  // Payout
+  payoutDate   DateTime? @map("payout_date")
+  payoutMethod String?   @map("payout_method")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([bookingId])
+  @@index([payerId])
+  @@index([payeeId])
+  @@index([status])
+  @@map("payments")
+}
+
+enum PaymentStatus {
+  PENDING
+  AUTHORIZED
+  CAPTURED
+  RELEASED
+  REFUNDED
+  FAILED
+}
+
+// Notification Model
+model Notification {
+  id     String @id @default(uuid())
+  userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  type    String
+  title   String
+  message String
+  data    Json?
+
+  read   Boolean   @default(false)
+  readAt DateTime? @map("read_at")
+
+  // Delivery status
+  pushSent  Boolean @default(false) @map("push_sent")
+  emailSent Boolean @default(false) @map("email_sent")
+  smsSent   Boolean @default(false) @map("sms_sent")
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([userId, read])
+  @@index([createdAt])
+  @@map("notifications")
+}
+
+// User Device (for push notifications)
+model UserDevice {
+  id     String @id @default(uuid())
+  userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  deviceToken String   @unique @map("device_token")
+  deviceType  DeviceType @map("device_type")
+  deviceName  String?  @map("device_name")
+
+  active   Boolean  @default(true)
+  lastUsed DateTime @default(now()) @map("last_used")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@map("user_devices")
+}
+
+enum DeviceType {
+  IOS
+  ANDROID
+}
+
+// Admin Actions (audit log)
+model AdminAction {
+  id      String @id @default(uuid())
+  adminId String @map("admin_id")
+
+  actionType String @map("action_type")
+  targetType String @map("target_type")
+  targetId   String @map("target_id")
+
+  reason String?
+  notes  String?
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([adminId])
+  @@index([targetType, targetId])
+  @@index([createdAt])
+  @@map("admin_actions")
+}
