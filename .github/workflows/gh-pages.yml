@@ -1,0 +1,49 @@
+name: Build and deploy to gh-pages
+
+on:
+  push:
+    branches:
+      - main
+      - claude/plant-sitter-app-v0.1   # build on pushes to either branch
+  workflow_dispatch:                    # allow manual runs
+
+permissions:
+  contents: write                       # needed to push to gh-pages
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: |
+          if [ -f package-lock.json ]; then npm ci; else npm install; fi
+
+      - name: Build site (if build script exists)
+        run: |
+          if npm run | grep -q " build"; then npm run build; fi
+
+      # Collect static files to publish:
+      # - prefer Vite's dist/ or CRA's build/ if present
+      # - otherwise publish repo root (plain HTML)
+      - name: Prepare publish directory
+        run: |
+          mkdir -p out
+          if [ -d dist ]; then cp -r dist/* out/; \
+          elif [ -d build ]; then cp -r build/* out/; \
+          else cp -r * out/; fi
+          touch out/.nojekyll
+
+      - name: Publish to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./out
+          publish_branch: gh-pages
